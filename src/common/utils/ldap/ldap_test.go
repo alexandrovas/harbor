@@ -31,7 +31,7 @@ var ldapTestConfig = map[string]interface{}{
 	common.LDAPFilter:           "",
 	common.LDAPScope:            3,
 	common.LDAPTimeout:          30,
-	common.LDAPPageSize:         0,
+	common.LDAPPageSize:         100,
 	common.AdminInitialPassword: "password",
 }
 
@@ -53,7 +53,7 @@ var defaultConfigWithVerifyCert = map[string]interface{}{
 	common.LDAPFilter:                 "",
 	common.LDAPScope:                  3,
 	common.LDAPTimeout:                30,
-	common.LDAPPageSize:               0,
+	common.LDAPPageSize:               100,
 	common.LDAPVerifyCert:             true,
 	common.TokenServiceURL:            "http://token_service",
 	common.RegistryURL:                "http://registry",
@@ -180,6 +180,8 @@ func TestSearchUser(t *testing.T) {
 
 	result, err := session.SearchUser("test")
 	if err != nil || len(result) == 0 {
+		t.Logf("error: %v", err)
+		t.Logf("len(result): %v", len(result))
 		t.Fatalf("failed to search user test!")
 	}
 
@@ -273,6 +275,7 @@ func TestSession_SearchGroup(t *testing.T) {
 		LdapURL:            ldapTestConfig[common.LDAPURL].(string) + ":389",
 		LdapSearchDn:       ldapTestConfig[common.LDAPSearchDN].(string),
 		LdapScope:          2,
+		LdapPageSize:       ldapTestConfig[common.LDAPPageSize].(int),
 		LdapSearchPassword: ldapTestConfig[common.LDAPSearchPwd].(string),
 		LdapBaseDn:         ldapTestConfig[common.LDAPBaseDN].(string),
 	}
@@ -314,6 +317,7 @@ func TestSession_SearchGroupByDN(t *testing.T) {
 		LdapURL:            ldapTestConfig[common.LDAPURL].(string) + ":389",
 		LdapSearchDn:       ldapTestConfig[common.LDAPSearchDN].(string),
 		LdapScope:          2,
+		LdapPageSize:       ldapTestConfig[common.LDAPPageSize].(int),
 		LdapSearchPassword: ldapTestConfig[common.LDAPSearchPwd].(string),
 		LdapBaseDn:         ldapTestConfig[common.LDAPBaseDN].(string),
 	}
