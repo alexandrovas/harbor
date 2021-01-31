@@ -180,8 +180,6 @@ func TestSearchUser(t *testing.T) {
 
 	result, err := session.SearchUser("test")
 	if err != nil || len(result) == 0 {
-		t.Logf("error: %v", err)
-		t.Logf("len(result): %v", len(result))
 		t.Fatalf("failed to search user test!")
 	}
 
